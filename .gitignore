@@ -1,0 +1,9 @@
+# Internal planning docs (not part of the shipped site)
+docs/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
