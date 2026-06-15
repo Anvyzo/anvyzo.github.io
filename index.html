@@ -337,17 +337,24 @@
       <div class="container arch">
         <div class="arch__head reveal">
           <span class="eyebrow">How systems flow</span>
-          <h3>From request to result, observable at every hop</h3>
+          <h3>From request to result — and raw data to insight</h3>
+          <p class="arch__hint" aria-hidden="true">Scroll to assemble the architecture</p>
         </div>
-        <div class="arch__stage">
+        <div class="arch__map">
           <canvas class="arch-canvas" aria-hidden="true"></canvas>
-          <ol class="arch__nodes">
-            <li class="arch-node"><span class="arch-node__icon" aria-hidden="true">◐</span><strong>Client</strong><span class="arch-node__sub">Web / Mobile</span></li>
-            <li class="arch-node"><span class="arch-node__icon" aria-hidden="true">⇄</span><strong>API</strong><span class="arch-node__sub">Django / DRF</span></li>
-            <li class="arch-node"><span class="arch-node__icon" aria-hidden="true">≋</span><strong>Queue</strong><span class="arch-node__sub">Celery / Redis</span></li>
-            <li class="arch-node"><span class="arch-node__icon" aria-hidden="true">⚙</span><strong>Workers</strong><span class="arch-node__sub">Async tasks</span></li>
-            <li class="arch-node"><span class="arch-node__icon" aria-hidden="true">⛁</span><strong>Database</strong><span class="arch-node__sub">PostgreSQL</span></li>
-          </ol>
+          <div class="arch-node" data-id="users"      style="--x:7%;--y:34%"><img class="arch-node__icon" src="assets/aws/users.svg" alt="" aria-hidden="true" /><strong>Users</strong><span class="arch-node__sub">Web · Mobile</span></div>
+          <div class="arch-node" data-id="cloudfront" style="--x:20%;--y:34%"><img class="arch-node__icon" src="assets/aws/cloudfront.svg" alt="" aria-hidden="true" /><strong>CloudFront</strong><span class="arch-node__sub">CDN</span></div>
+          <div class="arch-node" data-id="alb"        style="--x:33%;--y:34%"><img class="arch-node__icon" src="assets/aws/alb.svg" alt="" aria-hidden="true" /><strong>ALB</strong><span class="arch-node__sub">Load Balancer</span></div>
+          <div class="arch-node arch-node--hub arch-node--asg" data-id="api" style="--x:47%;--y:34%"><img class="arch-node__asg" src="assets/aws/asg.svg" alt="" aria-hidden="true" /><img class="arch-node__icon" src="assets/aws/ecs.svg" alt="" aria-hidden="true" /><strong>API</strong><span class="arch-node__sub">ECS · Django</span></div>
+          <div class="arch-node" data-id="cache"      style="--x:47%;--y:12%"><img class="arch-node__icon" src="assets/aws/elasticache.svg" alt="" aria-hidden="true" /><strong>ElastiCache</strong><span class="arch-node__sub">Redis</span></div>
+          <div class="arch-node" data-id="sqs"        style="--x:64%;--y:20%"><img class="arch-node__icon" src="assets/aws/sqs.svg" alt="" aria-hidden="true" /><strong>SQS</strong><span class="arch-node__sub">Queue</span></div>
+          <div class="arch-node arch-node--asg" data-id="workers" style="--x:82%;--y:20%"><img class="arch-node__asg" src="assets/aws/asg.svg" alt="" aria-hidden="true" /><img class="arch-node__icon" src="assets/aws/ecs.svg" alt="" aria-hidden="true" /><strong>Workers</strong><span class="arch-node__sub">ECS · Celery</span></div>
+          <div class="arch-node" data-id="rds"        style="--x:64%;--y:47%"><img class="arch-node__icon" src="assets/aws/rds.svg" alt="" aria-hidden="true" /><strong>RDS</strong><span class="arch-node__sub">PostgreSQL</span></div>
+          <div class="arch-node" data-id="cloudwatch" style="--x:88%;--y:46%"><img class="arch-node__icon" src="assets/aws/cloudwatch.svg" alt="" aria-hidden="true" /><strong>CloudWatch</strong><span class="arch-node__sub">Observability</span></div>
+          <div class="arch-node" data-id="s3"         style="--x:47%;--y:58%"><img class="arch-node__icon" src="assets/aws/s3.svg" alt="" aria-hidden="true" /><strong>S3</strong><span class="arch-node__sub">Data lake</span></div>
+          <div class="arch-node" data-id="airflow"    style="--x:30%;--y:80%"><img class="arch-node__icon arch-node__icon--brand" src="assets/aws/airflow.svg" alt="" aria-hidden="true" /><strong>Airflow</strong><span class="arch-node__sub">Orchestration</span></div>
+          <div class="arch-node" data-id="databricks" style="--x:52%;--y:80%"><img class="arch-node__icon arch-node__icon--brand" src="assets/aws/databricks.svg" alt="" aria-hidden="true" /><strong>Databricks</strong><span class="arch-node__sub">Lakehouse · Spark</span></div>
+          <div class="arch-node" data-id="redshift"   style="--x:74%;--y:80%"><img class="arch-node__icon" src="assets/aws/redshift.svg" alt="" aria-hidden="true" /><strong>Redshift</strong><span class="arch-node__sub">Warehouse</span></div>
         </div>
       </div>
     </section>
@@ -515,8 +522,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/scroll.js" defer></script>
   <script src="assets/js/hero-network.js" defer></script>
   <script src="assets/js/architecture.js" defer></script>
+  <script src="assets/js/scroll.js" defer></script>
 </body>
 </html>

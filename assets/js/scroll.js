@@ -92,6 +92,20 @@
 
     registerSections();
 
+    // Scroll-built architecture: pin the diagram and scrub its assembly.
+    if (window.archDiagram && document.querySelector(".arch__map")) {
+      window.archDiagram.takeControl();
+      ScrollTrigger.create({
+        trigger: ".arch",
+        start: "top 16%",
+        end: "+=1200",
+        pin: ".arch",
+        scrub: 0.4,
+        onUpdate: function (self) { window.archDiagram.setProgress(self.progress); },
+        onRefresh: function () { window.archDiagram.resize(); }
+      });
+    }
+
     // ONE tasteful pin: hold the Why heading while its points assemble.
     if (document.querySelector(".why .section-head")) {
       gsap.timeline({
@@ -207,9 +221,8 @@
     rise(".code-panel", { trigger: ".code-panel", start: "top 84%", y: 40, scale: 0.97 });
     rise(".code-panel__body code", { trigger: ".code-panel", start: "top 78%", y: 10, duration: 0.7, ease: "power2.out", delay: 0.2 });
 
-    // Architecture diagram: head + nodes assemble
+    // Architecture diagram heading (the diagram itself is driven below / by architecture.js)
     rise(".arch__head", { trigger: ".arch", start: "top 82%", y: 26 });
-    rise(".arch-node", { trigger: ".arch__stage", start: "top 80%", y: 30, scale: 0.92, duration: 0.6, stagger: 0.14 });
 
     // Example work
     rise(".work .section-head", { trigger: ".work", start: "top 80%", y: 28 });
