@@ -257,6 +257,37 @@ body::after {
 }
 .arch-node__asg { position: absolute; top: -13px; left: -11px; width: 22px; height: 22px; }
 
+/* hover affordance — invites the Terraform popover */
+@media (min-width: 760px) and (pointer: fine) {
+  .arch-node { cursor: help; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  .arch-node:hover { border-color: var(--cyan); box-shadow: 0 0 26px rgba(34, 211, 238, 0.28); }
+}
+
+/* Terraform-on-hover popover */
+.tf-popover {
+  position: fixed; z-index: 70; width: 372px; max-width: 86vw;
+  background: #0A0C12; border: 1px solid var(--border-strong); border-radius: 12px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 30px rgba(34, 211, 238, 0.12);
+  opacity: 0; transform: translateY(8px) scale(0.98); transform-origin: top left;
+  transition: opacity 0.16s ease, transform 0.16s ease; pointer-events: none; overflow: hidden;
+}
+.tf-popover.is-on { opacity: 1; transform: none; }
+.tf-popover__bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.02);
+}
+.tf-popover__title { margin-left: 8px; font-family: var(--font-display); font-size: 0.78rem; color: var(--text-dim); }
+.tf-popover__code {
+  margin: 0; padding: 16px 18px; overflow: hidden;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem; line-height: 1.6; color: #C7CCDA; white-space: pre;
+}
+.tf-popover__code .c-com { color: #5C667D; font-style: italic; }
+.tf-popover__code .c-key { color: var(--cyan); }
+.tf-popover__code .c-str { color: var(--teal); }
+.tf-popover__code .c-num { color: var(--violet); }
+@media (max-width: 760px) { .tf-popover { display: none; } }
+
 @media (max-width: 760px) {
   .arch__map { display: flex; flex-direction: column; gap: 12px; height: auto; }
   .arch-canvas { display: none; }

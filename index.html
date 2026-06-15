@@ -338,7 +338,7 @@
         <div class="arch__head reveal">
           <span class="eyebrow">How systems flow</span>
           <h3>From request to result — and raw data to insight</h3>
-          <p class="arch__hint" aria-hidden="true">Scroll to assemble the architecture</p>
+          <p class="arch__hint" aria-hidden="true">Scroll to assemble · hover any component for its Terraform</p>
         </div>
         <div class="arch__map">
           <canvas class="arch-canvas" aria-hidden="true"></canvas>
@@ -355,6 +355,14 @@
           <div class="arch-node" data-id="airflow"    style="--x:30%;--y:80%"><img class="arch-node__icon arch-node__icon--brand" src="assets/aws/airflow.svg" alt="" aria-hidden="true" /><strong>Airflow</strong><span class="arch-node__sub">Orchestration</span></div>
           <div class="arch-node" data-id="databricks" style="--x:52%;--y:80%"><img class="arch-node__icon arch-node__icon--brand" src="assets/aws/databricks.svg" alt="" aria-hidden="true" /><strong>Databricks</strong><span class="arch-node__sub">Lakehouse · Spark</span></div>
           <div class="arch-node" data-id="redshift"   style="--x:74%;--y:80%"><img class="arch-node__icon" src="assets/aws/redshift.svg" alt="" aria-hidden="true" /><strong>Redshift</strong><span class="arch-node__sub">Warehouse</span></div>
+        </div>
+
+        <div class="tf-popover" id="tfPopover" aria-hidden="true">
+          <div class="tf-popover__bar">
+            <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+            <span class="tf-popover__title"></span>
+          </div>
+          <pre class="tf-popover__code"><code></code></pre>
         </div>
       </div>
     </section>
@@ -524,6 +532,7 @@
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/hero-network.js" defer></script>
   <script src="assets/js/architecture.js" defer></script>
+  <script src="assets/js/terraform.js" defer></script>
   <script src="assets/js/scroll.js" defer></script>
 </body>
 </html>
