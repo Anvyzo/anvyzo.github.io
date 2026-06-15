@@ -4,13 +4,9 @@
 (function () {
   "use strict";
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initScrollState();
-    initReveal();
-    initParallax();
     initForm();
     initYear();
   });
@@ -46,44 +42,6 @@
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  /* ---------- Scroll reveal ---------- */
-  function initReveal() {
-    const els = document.querySelectorAll(".reveal");
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      els.forEach(function (el) { el.classList.add("is-visible"); });
-      return;
-    }
-    const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
-    els.forEach(function (el) { io.observe(el); });
-  }
-
-  /* ---------- Orb parallax ---------- */
-  function initParallax() {
-    if (reduceMotion) return;
-    const orbs = document.querySelectorAll(".orb");
-    if (!orbs.length) return;
-    let ticking = false;
-    window.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        const y = window.scrollY;
-        orbs.forEach(function (orb, i) {
-          const depth = (i + 1) * 0.04;
-          orb.style.transform = "translateY(" + (y * depth) + "px)";
-        });
-        ticking = false;
-      });
-    }, { passive: true });
   }
 
   /* ---------- Contact form ---------- */
