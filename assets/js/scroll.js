@@ -102,8 +102,18 @@
       });
     }
 
-    // Magnetic primary CTAs (fine pointer only).
+    // Foreground shards parallax (scroll).
+    document.querySelectorAll(".shard").forEach(function (s, i) {
+      gsap.to(s, {
+        yPercent: (i % 2 === 0 ? -1 : 1) * (40 + i * 18),
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: true }
+      });
+    });
+
+    // Pointer-driven effects (fine pointer only).
     if (window.matchMedia("(pointer: fine)").matches) {
+      // Magnetic primary CTAs
       document.querySelectorAll(".btn--primary").forEach(function (btn) {
         btn.classList.add("is-magnetic");
         var qx = gsap.quickTo(btn, "x", { duration: 0.4, ease: "power3" });
@@ -114,6 +124,48 @@
           qy((e.clientY - (r.top + r.height / 2)) * 0.4);
         });
         btn.addEventListener("mouseleave", function () { qx(0); qy(0); });
+      });
+
+      // Cursor spotlight follows the pointer
+      var glow = document.querySelector(".cursor-glow");
+      if (glow) {
+        var gx = gsap.quickTo(glow, "x", { duration: 0.5, ease: "power3" });
+        var gy = gsap.quickTo(glow, "y", { duration: 0.5, ease: "power3" });
+        window.addEventListener("mousemove", function (e) {
+          glow.classList.add("is-on"); gx(e.clientX); gy(e.clientY);
+        });
+        document.addEventListener("mouseleave", function () { glow.classList.remove("is-on"); });
+      }
+
+      // Foreground shards subtle mouse parallax
+      var shards = document.querySelectorAll(".shard");
+      if (shards.length) {
+        var qs = [];
+        shards.forEach(function (s) {
+          qs.push({ x: gsap.quickTo(s, "x", { duration: 0.7, ease: "power2" }), y: gsap.quickTo(s, "y", { duration: 0.7, ease: "power2" }) });
+        });
+        window.addEventListener("mousemove", function (e) {
+          var nx = (e.clientX / window.innerWidth - 0.5);
+          var ny = (e.clientY / window.innerHeight - 0.5);
+          shards.forEach(function (s, i) { var d = (i + 1) * 8; qs[i].x(-nx * d); qs[i].y(-ny * d); });
+        });
+      }
+
+      // 3D tilt + spotlight on cards
+      document.querySelectorAll(".s-card, .work-card").forEach(function (card) {
+        var rx = gsap.quickTo(card, "rotationX", { duration: 0.4, ease: "power2" });
+        var ry = gsap.quickTo(card, "rotationY", { duration: 0.4, ease: "power2" });
+        card.addEventListener("mouseenter", function () { card.classList.add("is-tilting"); });
+        card.addEventListener("mousemove", function (e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          ry((px - 0.5) * 10);
+          rx((0.5 - py) * 10);
+          card.style.setProperty("--mx", (px * 100) + "%");
+          card.style.setProperty("--my", (py * 100) + "%");
+        });
+        card.addEventListener("mouseleave", function () { rx(0); ry(0); card.classList.remove("is-tilting"); });
       });
     }
 
@@ -154,6 +206,10 @@
     rise(".principles li", { trigger: ".principles", start: "top 85%", y: 18, duration: 0.5, ease: "power2.out", stagger: 0.08 });
     rise(".code-panel", { trigger: ".code-panel", start: "top 84%", y: 40, scale: 0.97 });
     rise(".code-panel__body code", { trigger: ".code-panel", start: "top 78%", y: 10, duration: 0.7, ease: "power2.out", delay: 0.2 });
+
+    // Architecture diagram: head + nodes assemble
+    rise(".arch__head", { trigger: ".arch", start: "top 82%", y: 26 });
+    rise(".arch-node", { trigger: ".arch__stage", start: "top 80%", y: 30, scale: 0.92, duration: 0.6, stagger: 0.14 });
 
     // Example work
     rise(".work .section-head", { trigger: ".work", start: "top 80%", y: 28 });

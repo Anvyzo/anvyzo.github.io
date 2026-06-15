@@ -139,7 +139,7 @@ html.lenis, html.lenis body { height: auto; }
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.5;
+  opacity: 0.42;
   will-change: transform;
 }
 .orb--1 {
@@ -175,6 +175,97 @@ body::after {
   background-image: radial-gradient(rgba(255,255,255,0.8) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
 }
+
+/* ============================================================
+   Foreground parallax shards
+   ============================================================ */
+.fg-layer { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.shard {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.07);
+  text-shadow: 0 0 24px rgba(34, 211, 238, 0.12);
+  user-select: none;
+  will-change: transform;
+}
+.shard--1 { top: 18%; left: 8%;  font-size: 3.4rem; }
+.shard--2 { top: 64%; left: 5%;  font-size: 4rem; }
+.shard--3 { top: 32%; right: 9%; font-size: 4.5rem; }
+.shard--4 { top: 78%; right: 12%; font-size: 3rem; }
+.shard--5 { top: 48%; left: 46%; font-size: 3.2rem; }
+.shard--6 { top: 12%; right: 38%; font-size: 3rem; }
+@media (max-width: 860px) { .fg-layer { display: none; } }
+
+/* ============================================================
+   Cursor spotlight (global, desktop)
+   ============================================================ */
+.cursor-glow {
+  position: fixed; top: 0; left: 0; width: 480px; height: 480px;
+  margin: -240px 0 0 -240px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,92,255,0.12), rgba(34,211,238,0.06) 40%, transparent 70%);
+  z-index: 2; pointer-events: none; opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+.cursor-glow.is-on { opacity: 1; }
+@media (max-width: 860px) { .cursor-glow { display: none; } }
+
+/* ============================================================
+   Hero interactive canvas
+   ============================================================ */
+.hero { position: relative; }
+.hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+.hero__inner { position: relative; z-index: 2; }
+
+/* ============================================================
+   Architecture diagram
+   ============================================================ */
+.arch { margin-top: 72px; }
+.arch__head { text-align: center; margin-bottom: 40px; }
+.arch__head h3 { font-size: clamp(1.3rem, 2.4vw, 1.9rem); margin-top: 12px; }
+.arch__stage { position: relative; }
+.arch-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.arch__nodes {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: stretch; gap: 14px;
+}
+.arch-node {
+  flex: 1 1 0; min-width: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 14px; text-align: center; backdrop-filter: blur(8px);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.arch-node__icon {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 11px;
+  background: var(--grad-soft); border: 1px solid var(--border);
+  font-size: 1.15rem; margin-bottom: 4px;
+}
+.arch-node strong { font-family: var(--font-display); font-size: 1rem; }
+.arch-node__sub { color: var(--text-dim); font-size: 0.8rem; }
+@media (max-width: 720px) {
+  .arch__nodes { flex-direction: column; gap: 26px; }
+  .arch-node { flex-direction: row; justify-content: flex-start; text-align: left; gap: 14px; }
+  .arch-node__icon { margin-bottom: 0; }
+}
+
+/* ============================================================
+   3D tilt cards
+   ============================================================ */
+.cards-grid, .work-grid { perspective: 1000px; }
+.s-card, .work-card { transform-style: preserve-3d; will-change: transform; }
+.s-card.is-tilting, .work-card.is-tilting { transition: none; }
+/* cursor spotlight inside cards */
+.s-card, .work-card { position: relative; overflow: hidden; }
+.s-card::after, .work-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s ease;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(34,211,238,0.12), transparent 60%);
+}
+.s-card:hover::after, .work-card:hover::after { opacity: 1; }
 
 /* ============================================================
    Buttons
