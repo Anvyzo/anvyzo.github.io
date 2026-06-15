@@ -415,7 +415,7 @@ body::after {
    ============================================================ */
 .hero { min-height: 94vh; display: flex; align-items: center; padding-top: var(--nav-h); }
 .hero__inner { max-width: 880px; }
-.hero__title { font-size: clamp(2rem, 7vw, 4.8rem); font-weight: 700; margin-bottom: 24px; overflow-wrap: break-word; hyphens: auto; }
+.hero__title { font-size: clamp(2rem, 7vw, 4.8rem); font-weight: 700; margin-bottom: 24px; overflow-wrap: break-word; }
 .hero__sub { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 660px; margin-bottom: 36px; }
 .hero__cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
 .hero__trust { font-size: 0.9rem; color: var(--text-dim); letter-spacing: 0.02em; }
