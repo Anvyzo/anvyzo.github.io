@@ -22,48 +22,60 @@
   // appear-progress per node (0..1)
   var NODES = [
     { id: "users", at: 0.00 },
-    { id: "cloudfront", at: 0.06 },
-    { id: "alb", at: 0.12 },
-    { id: "api", at: 0.18 },
-    { id: "cache", at: 0.24 },
-    { id: "rds", at: 0.30 },
-    { id: "sqs", at: 0.36 },
-    { id: "workers", at: 0.42 },
-    { id: "s3", at: 0.48 },
-    { id: "cloudwatch", at: 0.54 },
-    { id: "airflow", at: 0.64 },
-    { id: "databricks", at: 0.72 },
-    { id: "redshift", at: 0.80 }
+    { id: "route53", at: 0.05 },
+    { id: "cloudfront", at: 0.10 },
+    { id: "waf", at: 0.15 },
+    { id: "alb", at: 0.20 },
+    { id: "api", at: 0.25 },
+    { id: "cache", at: 0.30 },
+    { id: "rds", at: 0.35 },
+    { id: "workers", at: 0.40 },
+    { id: "sqs", at: 0.44 },
+    { id: "s3", at: 0.50 },
+    { id: "sagemaker", at: 0.55 },
+    { id: "cloudwatch", at: 0.60 },
+    { id: "githubactions", at: 0.66 },
+    { id: "ecr", at: 0.70 },
+    { id: "airflow", at: 0.76 },
+    { id: "databricks", at: 0.82 },
+    { id: "redshift", at: 0.88 }
   ];
 
   // edges with build window {start, len}
   var EDGES = [
-    { a: "users", b: "cloudfront", start: 0.06, len: 0.05 },
-    { a: "cloudfront", b: "alb", start: 0.12, len: 0.05 },
-    { a: "alb", b: "api", start: 0.18, len: 0.05 },
-    { a: "api", b: "cache", start: 0.24, len: 0.05 },
-    { a: "api", b: "rds", start: 0.30, len: 0.05 },
-    { a: "api", b: "sqs", start: 0.36, len: 0.05 },
-    { a: "sqs", b: "workers", start: 0.42, len: 0.05 },
-    { a: "workers", b: "rds", start: 0.47, len: 0.05 },
-    { a: "api", b: "s3", start: 0.48, len: 0.05 },
-    { a: "cloudwatch", b: "api", start: 0.54, len: 0.05, dashed: true },
-    { a: "cloudwatch", b: "workers", start: 0.57, len: 0.05, dashed: true },
-    { a: "s3", b: "airflow", start: 0.64, len: 0.05 },
-    { a: "rds", b: "airflow", start: 0.67, len: 0.05, dashed: true },
-    { a: "airflow", b: "databricks", start: 0.72, len: 0.05 },
-    { a: "databricks", b: "redshift", start: 0.80, len: 0.05 }
+    { a: "users", b: "route53", start: 0.05, len: 0.04 },
+    { a: "route53", b: "cloudfront", start: 0.10, len: 0.04 },
+    { a: "cloudfront", b: "waf", start: 0.15, len: 0.04 },
+    { a: "waf", b: "alb", start: 0.20, len: 0.04 },
+    { a: "alb", b: "api", start: 0.25, len: 0.04 },
+    { a: "api", b: "cache", start: 0.30, len: 0.04 },
+    { a: "api", b: "rds", start: 0.35, len: 0.04 },
+    { a: "api", b: "sqs", start: 0.40, len: 0.04 },
+    { a: "sqs", b: "workers", start: 0.44, len: 0.04 },
+    { a: "workers", b: "rds", start: 0.47, len: 0.04 },
+    { a: "api", b: "s3", start: 0.50, len: 0.04 },
+    { a: "api", b: "sagemaker", start: 0.55, len: 0.04 },
+    { a: "cloudwatch", b: "api", start: 0.60, len: 0.04, dashed: true },
+    { a: "cloudwatch", b: "workers", start: 0.62, len: 0.04, dashed: true },
+    { a: "githubactions", b: "ecr", start: 0.66, len: 0.04 },
+    { a: "ecr", b: "api", start: 0.70, len: 0.05, dashed: true },
+    { a: "s3", b: "airflow", start: 0.76, len: 0.04 },
+    { a: "rds", b: "airflow", start: 0.78, len: 0.04, dashed: true },
+    { a: "airflow", b: "databricks", start: 0.82, len: 0.04 },
+    { a: "databricks", b: "redshift", start: 0.88, len: 0.04 }
   ];
 
   // pulse routes (followed once the system is fully built)
   var PATHS = [
-    ["users", "cloudfront", "alb", "api", "rds"],
+    ["users", "route53", "cloudfront", "waf", "alb", "api", "rds"],
     ["api", "sqs", "workers", "rds"],
-    ["s3", "airflow", "databricks", "redshift"]
+    ["s3", "airflow", "databricks", "redshift"],
+    ["githubactions", "ecr", "api"]
   ];
 
   var els = {};
   NODES.forEach(function (n) { els[n.id] = map.querySelector('[data-id="' + n.id + '"]'); });
+  var vpcEl = map.querySelector(".arch-vpc");
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var W = 0, H = 0, centers = {};
@@ -95,6 +107,7 @@
       el.style.opacity = a;
       el.style.transform = "translate(-50%, -50%) scale(" + (0.86 + 0.14 * a) + ")";
     });
+    if (vpcEl) vpcEl.style.opacity = clamp01((progress - 0.2) / 0.06);
   }
 
   function drawEdge(e) {

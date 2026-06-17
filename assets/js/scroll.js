@@ -186,7 +186,7 @@
     return function () {}; // gsap.matchMedia auto-reverts tweens created here
   });
 
-  // Mobile: lighter — reveals only, no parallax / pin / magnetic.
+  // Mobile: lighter - reveals only, no parallax / pin / magnetic.
   mm.add("(max-width: 860px)", function () {
     rise(".hero .reveal", { y: 24, stagger: 0.08, duration: 0.7, noTrigger: true });
     registerSections();

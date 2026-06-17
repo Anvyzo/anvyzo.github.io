@@ -176,6 +176,79 @@
 '  database_name      = "analytics"\n' +
 '  encrypted          = true\n' +
 '}'
+    },
+    route53: {
+      file: "route53.tf",
+      code:
+'resource "aws_route53_record" "app" {\n' +
+'  zone_id = aws_route53_zone.main.id\n' +
+'  name    = "app.anvyzo.com"\n' +
+'  type    = "A"\n' +
+'\n' +
+'  alias {\n' +
+'    name                   = aws_cloudfront_distribution.cdn.domain_name\n' +
+'    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id\n' +
+'    evaluate_target_health = false\n' +
+'  }\n' +
+'}'
+    },
+    waf: {
+      file: "waf.tf",
+      code:
+'resource "aws_wafv2_web_acl" "edge" {\n' +
+'  name  = "anvyzo-waf"\n' +
+'  scope = "CLOUDFRONT"\n' +
+'\n' +
+'  default_action {\n' +
+'    allow {}\n' +
+'  }\n' +
+'\n' +
+'  rule {\n' +
+'    name     = "AWSManagedRulesCommonRuleSet"\n' +
+'    priority = 1\n' +
+'  }\n' +
+'}'
+    },
+    ecr: {
+      file: "ecr.tf",
+      code:
+'resource "aws_ecr_repository" "api" {\n' +
+'  name                 = "anvyzo/api"\n' +
+'  image_tag_mutability = "IMMUTABLE"\n' +
+'\n' +
+'  image_scanning_configuration {\n' +
+'    scan_on_push = true\n' +
+'  }\n' +
+'}'
+    },
+    githubactions: {
+      file: "github_oidc.tf",
+      code:
+'# CI/CD deploys via OIDC, no long-lived keys.\n' +
+'resource "aws_iam_role" "gha_deploy" {\n' +
+'  name = "anvyzo-gha-deploy"\n' +
+'\n' +
+'  assume_role_policy = jsonencode({\n' +
+'    Statement = [{\n' +
+'      Effect    = "Allow"\n' +
+'      Action    = "sts:AssumeRoleWithWebIdentity"\n' +
+'      Principal = { Federated = aws_iam_openid_connect_provider.gha.arn }\n' +
+'    }]\n' +
+'  })\n' +
+'}'
+    },
+    sagemaker: {
+      file: "sagemaker.tf",
+      code:
+'resource "aws_sagemaker_model" "ai" {\n' +
+'  name               = "anvyzo-model"\n' +
+'  execution_role_arn = aws_iam_role.sagemaker.arn\n' +
+'}\n' +
+'\n' +
+'resource "aws_sagemaker_endpoint" "ai" {\n' +
+'  name                 = "anvyzo-inference"\n' +
+'  endpoint_config_name = aws_sagemaker_endpoint_configuration.ai.name\n' +
+'}'
     }
   };
 
