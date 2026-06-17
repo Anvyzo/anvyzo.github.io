@@ -60,3 +60,7 @@ without any backend. The form also degrades to a normal POST if JavaScript is di
   (`--violet`, `--cyan`, `--teal` drive the aurora gradient).
 - **Contact email:** search for `hello@anvyzo.com` in `index.html` and update.
 - **Copy:** all text lives directly in `index.html`.
+- **SEO / domain:** the canonical URL, Open Graph / Twitter tags, JSON-LD, `robots.txt`,
+  and `sitemap.xml` assume the domain `https://anvyzo.com`. If you deploy elsewhere,
+  search-and-replace that URL across `index.html`, `robots.txt`, and `sitemap.xml`.
+  The social share image is `assets/og-image.png` (1200×630).

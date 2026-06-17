@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anvyzo.com/sitemap.xml
