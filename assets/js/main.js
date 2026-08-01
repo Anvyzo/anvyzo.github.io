@@ -92,8 +92,9 @@
         return;
       }
 
-      // guard: endpoint not configured yet
-      if (form.action.indexOf("your-id") !== -1) {
+      // guard: access key not configured yet
+      var key = form.elements["access_key"];
+      if (!key || key.value.indexOf("YOUR_ACCESS_KEY") !== -1) {
         setStatus("Form endpoint not configured yet. Email us at hello@anvyzo.com.", "error");
         return;
       }

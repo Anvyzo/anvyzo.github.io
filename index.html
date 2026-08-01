@@ -515,7 +515,7 @@
             <p class="lede">Tell us about your systems and where you want them to go. We reply personally.</p>
           </div>
 
-          <form class="contact-form" id="contactForm" action="https://formspree.io/f/your-id" method="POST" novalidate>
+          <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
             <div class="form-row">
               <div class="field">
                 <label for="name">Name</label>
@@ -534,6 +534,10 @@
               <label for="message">What are you building?</label>
               <textarea id="message" name="message" rows="5" required></textarea>
             </div>
+            <!-- web3forms config -->
+            <input type="hidden" name="access_key" value="8fa8a0af-6948-4089-999f-476b53d48eee" />
+            <input type="hidden" name="subject" value="New enquiry from anvyzo.com" />
+
             <!-- honeypot -->
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" />
 
