@@ -386,16 +386,8 @@ body::after {
 }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; }
 
-.nav__logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
-.nav__mark {
-  display: grid; place-items: center;
-  width: 32px; height: 32px;
-  border-radius: 9px;
-  background: var(--grad);
-  color: #04060B;
-  font-weight: 700;
-}
-.nav__word { letter-spacing: -0.02em; }
+.nav__logo { display: inline-flex; align-items: center; }
+.nav__logo-img { display: block; height: 32px; width: auto; }
 
 .nav__links { display: flex; align-items: center; gap: 30px; }
 .nav__links a { color: var(--text-dim); font-size: 0.95rem; font-weight: 500; transition: color 0.2s ease; position: relative; }
